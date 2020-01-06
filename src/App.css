@@ -6,3 +6,8 @@ button:disabled {
   opacity: 0.2;
   cursor: auto;
 }
+
+.App{
+  max-width: 600px;
+  margin: 1rem auto;
+}
