@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import Counter from "./components/Counter";
-
-
+import SingleTask from "./components/SingleTask";
 
 function App() {
   //const [current, setCurrent] = useState({});
@@ -11,35 +9,50 @@ function App() {
     initTaks = Number(localStorage.getItem("tasks"));
   }
   console.log(initTaks);
-  
+  /*
+  archove = {
+    id: 1,
+    endAt: Date,
+    duration: Number | Date.getTime(),
+  }
+  */
   const [tasks, setTasks] = useState(initTaks);
-  const [timeIn, setTimeIn] = useState(0);
-  const [timeInCurrent, setTimeInCurrent] = useState(0);
-  const [lastClick, setLastClick] = useState(new Date().getTime());
+  
+  //const [timeIn, setTimeIn] = useState(0);
+  //const [timeInCurrent, setTimeInCurrent] = useState(0);
+  // const [lastClick, setLastClick] = useState(new Date().getTime());
   const [archive, setArchive] = useState([]);
+  const [pause, setPause] = useState(true);
+  const [timer,setTimer] = useState(0);
   // init ClickTime
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeInCurrent(new Date().getTime() - lastClick);
+      if (!pause) {
+        //setTimeInCurrent(new Date().getTime() - lastClick);
+        setTimer(timer+1);
+      }
     }, 1000);
-
     return () => {
       clearInterval(interval);
     };
-  }, [lastClick]);
+  }, [tasks,pause,timer]);
 
   const modtask = function(type) {
-    let currentTask = tasks;  
+    let currentTask = tasks;
 
     switch (type) {
       case "plus":
-        setTimeIn(new Date().getTime() - lastClick);
-        console.log({timeIn,lastClick});
-        setLastClick(new Date);
+        setPause(false);
+        let entryArchive = {
+          id: currentTask,duration:timer, endAt: new Date()
+        }
+        setArchive(oldArchive => [...oldArchive, entryArchive]);
+        setTimer(0);
         // Tasks
         currentTask++;
         break;
       case "minus":
+        setTimer(0);
         currentTask--;
         break;
       case "reset":
@@ -57,33 +70,43 @@ function App() {
   };
 
   const handleChange = function(event) {
-      setTasks(event.target.value);
+    setTasks(Number(event.target.value));
+  };
+  const formatHours = function(time){
+    let measuredTime = new Date(null);
+    measuredTime.setSeconds(time); // specify value of SECONDS
+    let MHSTime = measuredTime.toISOString().substr(11, 8);
+    return MHSTime;
+    //return tempTime.toISOString().substr(11, 8)
   }
   return (
     <div className="App">
-      <h1 >{tasks}</h1>
-      <h1>Tiempo tare actual {new Date(timeInCurrent).toISOString().substr(11, 8)}</h1>
-      <h2>last click at: {new Date(lastClick).toLocaleTimeString()}</h2>
-      <h2>Time in last task: {new Date(timeIn).toISOString().substr(11, 8) }</h2>
+      {/*editing ? <div></div> : <h1 onClick={setEditing(true)}>{tasks}</h1>*/}
+ 
       <input type="text" value={tasks} onChange={handleChange} />
-      <button onClick={() => modtask("plus")}>+1</button>
+ 
+      <h2>
+        Time un current Task {" "}
+        {formatHours(timer)}
+      </h2>
+      <h2>
+{/*         Last click at {new Date(lastClick).toLocaleTimeString()} hrs | Time in
+        last task: {new Date(timeIn).toISOString().substr(11, 8)} */}
+      </h2>
+      {pause ? <button onClick={() => setPause(false)}>Start</button>: <button onClick={() => setPause(true)}>Pause</button> }
+      
+      <button onClick={() => modtask("plus")}>Finish current task</button>
       <button
         onClick={() => modtask("minus")}
         disabled={isDisabled(tasks <= 0)}
       >
-        -1
+        Undo
       </button>
-      {archive.map(t =><SingleTask task={t}></SingleTask>)}
-      
+      {archive.map(t => (
+        <SingleTask task={t}></SingleTask>
+      ))}
     </div>
   );
 }
-function SingleTask(props){
-  return(
-    <div>
-      {props.task.id}
-      {props.task.timeIn}
-    </div>
-  )
-}
+
 export default App;
