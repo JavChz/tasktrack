@@ -8,6 +8,9 @@ button:disabled {
 }
 
 .App{
-  max-width: 600px;
+  max-width: 500px;
   margin: 1rem auto;
+}
+.timer{
+  text-align: center;
 }
