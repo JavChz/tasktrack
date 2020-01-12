@@ -1,52 +1,43 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import SingleTask from "./components/SingleTask";
-
+import formatHours from './libs/formatHours'
 function App() {
   //const [current, setCurrent] = useState({});
-  let initTaks = 0;
+  let initTaks = 1;
   if (localStorage.hasOwnProperty("tasks")) {
     initTaks = Number(localStorage.getItem("tasks"));
   }
   console.log(initTaks);
-  /*
-  archove = {
-    id: 1,
-    endAt: Date,
-    duration: Number | Date.getTime(),
-  }
-  */
-  const [tasks, setTasks] = useState(initTaks);
 
-  //const [timeIn, setTimeIn] = useState(0);
-  //const [timeInCurrent, setTimeInCurrent] = useState(0);
-  // const [lastClick, setLastClick] = useState(new Date().getTime());
+  const [tasks, setTasks] = useState(initTaks);
   const [archive, setArchive] = useState([]);
   const [pause, setPause] = useState(true);
   const [timer, setTimer] = useState(0);
+  const [timerGlobal, setTimerGlobal] = useState(0);
+
   // init ClickTime
   useEffect(() => {
     const interval = setInterval(() => {
       if (!pause) {
-        //setTimeInCurrent(new Date().getTime() - lastClick);
         setTimer(timer + 1);
+        setTimerGlobal(timerGlobal + 1);
       }
     }, 1000);
     return () => {
       clearInterval(interval);
     };
-  }, [tasks, pause, timer]);
+  }, [pause, timer,timerGlobal]);
 
   const modtask = function(type) {
     let currentTask = tasks;
 
     switch (type) {
       case "plus":
-        
         let entryArchive = {
           id: currentTask,
           duration: timer,
-          endAt: new Date()
+          endAt: Date.now()
         };
         setArchive(oldArchive => [...oldArchive, entryArchive]);
         setPause(false);
@@ -63,9 +54,12 @@ function App() {
         setArchive(tempArchive);
         break;
       case "reset":
-        currentTask = 0;
+        currentTask = 1;
+        break;
+      default:
         break;
     }
+
     localStorage.setItem("tasks", currentTask);
     setTasks(currentTask);
   };
@@ -79,27 +73,28 @@ function App() {
   const handleChange = function(event) {
     setTasks(Number(event.target.value));
   };
-  const formatHours = function(time) {
-    let measuredTime = new Date(null);
-    measuredTime.setSeconds(time);
-    let MHSTime = measuredTime.toISOString().substr(11, 8);
-    return MHSTime;
-  };
+
   return (
     <div className="App">
       <div className="timer">
-        <input type="text" value={tasks} onChange={handleChange} style={{textAlign:"center"}} />
-        <h2>Time in current Task {formatHours(timer)}</h2>
+        <input
+          type="text"
+          value={tasks}
+          onChange={handleChange}
+          style={{ textAlign: "center" }}
+        />
+        <h3>Time in current Task {formatHours(timer)}</h3>
+        <h3>Total Time: {formatHours(timerGlobal)}</h3>
         {pause ? (
           <button onClick={() => setPause(false)}>Start</button>
         ) : (
           <button onClick={() => setPause(true)}>Pause</button>
         )}
 
-        <button onClick={() => modtask("plus")}>Finish current task</button>
+        <button onClick={() => modtask("plus")} disabled={isDisabled(pause)}>Finish current task</button>
         <button
           onClick={() => modtask("minus")}
-          disabled={isDisabled(tasks <= 0)}
+          disabled={isDisabled(tasks <= 1)}
         >
           Undo
         </button>

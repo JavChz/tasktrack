@@ -1,4 +1,8 @@
 .singleTask{
-    display: grid;
-    grid-template-columns: 1fr 2fr 2fr;
-  }
+  display: flex;
+  justify-content: space-between;
+}
+.singleTask div{
+  padding: .5rem 1rem;
+  
+}

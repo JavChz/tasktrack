@@ -1,19 +1,20 @@
 import React from "react";
 import "./SingleTask.css";
-function SingleTask(props) {
-  const formatHours = function(time) {
-    let measuredTime = new Date(null);
-    measuredTime.setSeconds(time); // specify value of SECONDS
-    let MHSTime = measuredTime.toISOString().substr(11, 8);
-    return MHSTime;
-    //return tempTime.toISOString().substr(11, 8)
-  };
+
+const formatHours = function(time) {
+  let measuredTime = new Date(null);
+  measuredTime.setSeconds(time); // specify value of SECONDS
+  let MHSTime = measuredTime.toISOString().substr(11, 8);
+  return MHSTime;
+};
+
+const SingleTask = ({task}) => {
   return (
     <div className="singleTask">
-      <div>{props.task.id}</div>
-      <div>{formatHours(props.task.duration)}</div>
+      <div>{task.id}</div>
+      <div>{formatHours(task.duration)}</div>
       <div>
-        {new Date(props.task.endAt).toISOString().substr(11, 8)}hrs
+        {new Date(task.endAt).toLocaleTimeString('en-US') }
       </div>
     </div>
   );
