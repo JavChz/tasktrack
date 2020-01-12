@@ -42,20 +42,25 @@ function App() {
 
     switch (type) {
       case "plus":
-        setPause(false);
+        
         let entryArchive = {
           id: currentTask,
           duration: timer,
           endAt: new Date()
         };
         setArchive(oldArchive => [...oldArchive, entryArchive]);
+        setPause(false);
         setTimer(0);
         // Tasks
         currentTask++;
         break;
       case "minus":
+        setPause(false);
         setTimer(0);
         currentTask--;
+        let tempArchive = archive;
+        console.log(tempArchive.pop());
+        setArchive(tempArchive);
         break;
       case "reset":
         currentTask = 0;
@@ -83,7 +88,7 @@ function App() {
   return (
     <div className="App">
       <div className="timer">
-        <input type="text" value={tasks} onChange={handleChange} />
+        <input type="text" value={tasks} onChange={handleChange} style={{textAlign:"center"}} />
         <h2>Time in current Task {formatHours(timer)}</h2>
         {pause ? (
           <button onClick={() => setPause(false)}>Start</button>
