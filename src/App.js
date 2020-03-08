@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import SingleTask from "./components/SingleTask";
+
 import formatHours from "./libs/formatHours";
+import TaskArchive from './components/TaskArchive';
 function App() {
   //const [current, setCurrent] = useState({});
   let initTaks = 0;
@@ -28,7 +29,7 @@ function App() {
     return () => {
       clearInterval(interval);
     };
-  }, [pause, timer, timerGlobal]);
+  }, [pause, timer, timerGlobal, tasks]);
 
   const modtask = function(type) {
     let currentTask = tasks;
@@ -110,20 +111,7 @@ function App() {
           Undo
         </button>
       </div>
-
-      <div className="taskArchive">
-        <div className="singleTask">
-          <div>#</div>
-          <div>Duration</div>
-          <div>Ended at</div>
-        </div>
-        {archive
-          .slice(0)
-          .reverse()
-          .map((singleTask, index) => (
-            <SingleTask task={singleTask} key={index}></SingleTask>
-          ))}
-      </div>
+      <TaskArchive archive={archive}></TaskArchive>
     </div>
   );
 }
