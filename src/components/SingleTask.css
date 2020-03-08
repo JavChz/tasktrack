@@ -1,8 +1,10 @@
 .singleTask{
-  display: flex;
-  justify-content: space-between;
+  display: grid; 
+  grid-template-columns: 1fr repeat(2,3fr);
+  
 }
 .singleTask div{
   padding: .5rem 1rem;
-  
+  border-bottom: 1px solid var(--color-gray);;
+  text-align: right;
 }

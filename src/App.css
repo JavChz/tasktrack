@@ -12,12 +12,21 @@ button:disabled {
 .timer{
   text-align: center;
   margin-top: 2rem;
+
+}
+.timer input{
+  font-size: 1.3rem;
+  font-weight: bold;
+  padding: .5rem 0rem;
+  width: 100%;
+  border-radius: .2rem;
+  border: 1px solid var(--color-gray);
 }
 .finishTask{
   margin: 1rem;
   font-size: 2rem;
 }
-.toolButtons input{
+.toolButtons button{
   margin: 1rem;
   font-size: 1.2rem;
 }

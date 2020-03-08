@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 
 import formatHours from "./libs/formatHours";
-import TaskArchive from './components/TaskArchive';
+import TaskArchive from "./components/TaskArchive";
 function App() {
   //const [current, setCurrent] = useState({});
   let initTaks = 0;
@@ -86,7 +86,7 @@ function App() {
           style={{ textAlign: "center" }}
         />
         <h3>Time in current Task {formatHours(timer)}</h3>
-        <h3>Total Time: {formatHours(timerGlobal)}</h3>
+        <h5>Total Time: {formatHours(timerGlobal)}</h5>
         <div>
           <button
             className="finishTask"
@@ -97,19 +97,18 @@ function App() {
           </button>
         </div>
         <div className="toolButtons">
+          <button
+            onClick={() => modtask("minus")}
+            disabled={isDisabled(tasks <= 1)}
+          >
+            Undo
+          </button>
           {pause ? (
             <button onClick={() => setPause(false)}>Start</button>
           ) : (
             <button onClick={() => setPause(true)}>Pause</button>
           )}
         </div>
-
-        <button
-          onClick={() => modtask("minus")}
-          disabled={isDisabled(tasks <= 1)}
-        >
-          Undo
-        </button>
       </div>
       <TaskArchive archive={archive}></TaskArchive>
     </div>
