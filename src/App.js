@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import SingleTask from "./components/SingleTask";
-import formatHours from './libs/formatHours'
+import formatHours from "./libs/formatHours";
 function App() {
   //const [current, setCurrent] = useState({});
-  let initTaks = 1;
+  let initTaks = 0;
   if (localStorage.hasOwnProperty("tasks")) {
     initTaks = Number(localStorage.getItem("tasks"));
   }
@@ -22,12 +22,13 @@ function App() {
       if (!pause) {
         setTimer(timer + 1);
         setTimerGlobal(timerGlobal + 1);
+        document.title = `${formatHours(timer)} | ${tasks}`;
       }
     }, 1000);
     return () => {
       clearInterval(interval);
     };
-  }, [pause, timer,timerGlobal]);
+  }, [pause, timer, timerGlobal]);
 
   const modtask = function(type) {
     let currentTask = tasks;
@@ -85,13 +86,23 @@ function App() {
         />
         <h3>Time in current Task {formatHours(timer)}</h3>
         <h3>Total Time: {formatHours(timerGlobal)}</h3>
-        {pause ? (
-          <button onClick={() => setPause(false)}>Start</button>
-        ) : (
-          <button onClick={() => setPause(true)}>Pause</button>
-        )}
+        <div>
+          <button
+            className="finishTask"
+            onClick={() => modtask("plus")}
+            disabled={isDisabled(pause)}
+          >
+            Finish current task
+          </button>
+        </div>
+        <div className="toolButtons">
+          {pause ? (
+            <button onClick={() => setPause(false)}>Start</button>
+          ) : (
+            <button onClick={() => setPause(true)}>Pause</button>
+          )}
+        </div>
 
-        <button onClick={() => modtask("plus")} disabled={isDisabled(pause)}>Finish current task</button>
         <button
           onClick={() => modtask("minus")}
           disabled={isDisabled(tasks <= 1)}

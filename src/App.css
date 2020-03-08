@@ -13,3 +13,11 @@ button:disabled {
   text-align: center;
   margin-top: 2rem;
 }
+.finishTask{
+  margin: 1rem;
+  font-size: 2rem;
+}
+.toolButtons input{
+  margin: 1rem;
+  font-size: 1.2rem;
+}
