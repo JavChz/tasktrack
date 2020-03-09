@@ -5,17 +5,21 @@ import formatHours from "./libs/formatHours";
 import TaskArchive from "./components/TaskArchive";
 function App() {
   //const [current, setCurrent] = useState({});
-  let initTaks = 0;
-  if (localStorage.hasOwnProperty("tasks")) {
+  let initTaks = 1;
+  let initTimerGlobal = 0;
+  if (
+    localStorage.hasOwnProperty("tasks") ||
+    localStorage.hasOwnProperty("timerGlobal")
+  ) {
     initTaks = Number(localStorage.getItem("tasks"));
+    initTimerGlobal = Number(localStorage.getItem("timerGlobal"));
   }
-  console.log(initTaks);
 
   const [tasks, setTasks] = useState(initTaks);
   const [archive, setArchive] = useState([]);
   const [pause, setPause] = useState(true);
   const [timer, setTimer] = useState(0);
-  const [timerGlobal, setTimerGlobal] = useState(0);
+  const [timerGlobal, setTimerGlobal] = useState(initTimerGlobal);
 
   // init ClickTime
   useEffect(() => {
@@ -23,8 +27,9 @@ function App() {
       if (!pause) {
         setTimer(timer + 1);
         setTimerGlobal(timerGlobal + 1);
-        document.title = `${formatHours(timer)} | ${tasks}`;
+        localStorage.setItem("timerGlobal", timerGlobal);
       }
+      document.title = `${formatHours(timer)} | ${tasks}`;
     }, 1000);
     return () => {
       clearInterval(interval);
@@ -71,7 +76,15 @@ function App() {
     }
     return false;
   };
-
+  const reset = () => {
+    localStorage.clear();
+    setArchive([]);
+    setTasks(initTaks);
+    console.log({tasks});
+    setTimer(initTimerGlobal);
+    setPause(true);
+    setTimerGlobal(initTimerGlobal);
+  };
   const handleChange = function(event) {
     setTasks(Number(event.target.value));
   };
@@ -80,7 +93,7 @@ function App() {
     <div className="App">
       <div className="timer">
         <input
-          type="text"
+          type="number"
           value={tasks}
           onChange={handleChange}
           style={{ textAlign: "center" }}
@@ -108,6 +121,7 @@ function App() {
           ) : (
             <button onClick={() => setPause(true)}>Pause</button>
           )}
+          <button onClick={() => reset()}>Reset</button>
         </div>
       </div>
       <TaskArchive archive={archive}></TaskArchive>
