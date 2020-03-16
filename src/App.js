@@ -76,11 +76,10 @@ function App() {
     }
     return false;
   };
-  const reset = () => {
+  const reset = function() {
     localStorage.clear();
     setArchive([]);
     setTasks(initTaks);
-    console.log({tasks});
     setTimer(initTimerGlobal);
     setPause(true);
     setTimerGlobal(initTimerGlobal);
