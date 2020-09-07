@@ -5,17 +5,18 @@ import formatHours from "./libs/formatHours";
 import TaskArchive from "./components/TaskArchive";
 function App() {
   //const [current, setCurrent] = useState({});
-  let initTaks = 1;
+  const initTaskDefault = 1;
+  let initTasks = initTaskDefault;
   let initTimerGlobal = 0;
   if (
     localStorage.hasOwnProperty("tasks") ||
     localStorage.hasOwnProperty("timerGlobal")
   ) {
-    initTaks = Number(localStorage.getItem("tasks"));
+    initTasks = Number(localStorage.getItem("tasks"));
     initTimerGlobal = Number(localStorage.getItem("timerGlobal"));
   }
 
-  const [tasks, setTasks] = useState(initTaks);
+  const [tasks, setTasks] = useState(initTasks);
   const [archive, setArchive] = useState([]);
   const [pause, setPause] = useState(true);
   const [timer, setTimer] = useState(0);
@@ -36,17 +37,16 @@ function App() {
     };
   }, [pause, timer, timerGlobal, tasks]);
 
-  const modtask = function(type) {
+  const modTask = function (type) {
     let currentTask = tasks;
-
     switch (type) {
       case "plus":
         let entryArchive = {
           id: currentTask,
           duration: timer,
-          endAt: Date.now()
+          endAt: Date.now(),
         };
-        setArchive(oldArchive => [...oldArchive, entryArchive]);
+        setArchive((oldArchive) => [...oldArchive, entryArchive]);
         setPause(false);
         setTimer(0);
         // Tasks
@@ -61,7 +61,7 @@ function App() {
         setArchive(tempArchive);
         break;
       case "reset":
-        currentTask = 1;
+        currentTask = initTaskDefault;
         break;
       default:
         break;
@@ -70,21 +70,21 @@ function App() {
     localStorage.setItem("tasks", currentTask);
     setTasks(currentTask);
   };
-  const isDisabled = function(condition) {
+  const isDisabled = function (condition) {
     if (condition) {
       return true;
     }
     return false;
   };
-  const reset = function() {
+  const reset = function () {
     localStorage.clear();
     setArchive([]);
-    setTasks(initTaks);
+    modTask("reset");
     setTimer(initTimerGlobal);
     setPause(true);
     setTimerGlobal(initTimerGlobal);
   };
-  const handleChange = function(event) {
+  const handleChange = function (event) {
     setTasks(Number(event.target.value));
   };
 
@@ -102,7 +102,7 @@ function App() {
         <div>
           <button
             className="finishTask"
-            onClick={() => modtask("plus")}
+            onClick={() => modTask("plus")}
             disabled={isDisabled(pause)}
           >
             Finish current task
@@ -110,7 +110,7 @@ function App() {
         </div>
         <div className="toolButtons">
           <button
-            onClick={() => modtask("minus")}
+            onClick={() => modTask("minus")}
             disabled={isDisabled(tasks <= 1)}
           >
             Undo
