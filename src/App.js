@@ -7,6 +7,7 @@ function App() {
   //const [current, setCurrent] = useState({});
   const initTaskDefault = 1;
   let initTasks = initTaskDefault;
+
   let initTimerGlobal = 0;
   if (
     localStorage.hasOwnProperty("tasks") ||
@@ -80,9 +81,9 @@ function App() {
     localStorage.clear();
     setArchive([]);
     modTask("reset");
-    setTimer(initTimerGlobal);
+    setTimer(0);
     setPause(true);
-    setTimerGlobal(initTimerGlobal);
+    setTimerGlobal(0);
   };
   const handleChange = function (event) {
     setTasks(Number(event.target.value));
