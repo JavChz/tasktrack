@@ -1,11 +1,12 @@
-.App{
+.App {
   background: white;
-  box-shadow: 0 2px 4px rgba(0,0,0,.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   padding: 2rem 2rem 4rem;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
   color: var(--color-blue-dark);
 }
-input, button{
+input,
+button {
   color: var(--color-blue-dark);
 }
 button {
@@ -15,40 +16,38 @@ button:disabled {
   opacity: 0.2;
   cursor: auto;
 }
-.App{
+.App {
   max-width: 500px;
   margin: 1rem auto;
 }
-.timer{
+.timer {
   text-align: center;
   margin-top: 2rem;
-
 }
-.timer input{
+.timer input {
   font-size: 1.3rem;
   font-weight: bold;
-  padding: .5rem 0rem;
+  padding: 0.5rem 0rem;
   width: 100%;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
   border: 2px solid var(--color-blue-dark);
-  border-radius: .2rem;
+  border-radius: 0.2rem;
 }
-.finishTask{
-  
+.finishTask {
   font-size: 1.8rem;
-
 }
-button{
-  margin: 1rem;
+button {
+  box-sizing: border-box;
+  margin: 1rem 0.5rem;
   font-size: 1.1rem;
   border: 0;
-  padding: .8rem 1rem ;
+  padding: 0.8rem 1rem;
   background-color: var(--color-blue-dark);
-  text-shadow: 0px 1px 2px rgba(0,0,0,.2);
-  transition: opacity .2s ease-in-out;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.2s ease-in-out;
   color: white;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
 }
-button:active{
-  opacity: .9;
+button:active {
+  opacity: 0.9;
 }

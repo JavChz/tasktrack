@@ -4,7 +4,6 @@ import "./App.css";
 import formatHours from "./libs/formatHours";
 import TaskArchive from "./components/TaskArchive";
 function App() {
-  //const [current, setCurrent] = useState({});
   const initTaskDefault = 1;
   let initTasks = initTaskDefault;
 
@@ -85,6 +84,11 @@ function App() {
     setPause(true);
     setTimerGlobal(0);
   };
+  const resetCurrent = function () {
+    localStorage.clear();
+
+    setTimer(0);
+  };
   const handleChange = function (event) {
     setTasks(Number(event.target.value));
   };
@@ -121,6 +125,7 @@ function App() {
           ) : (
             <button onClick={() => setPause(true)}>Pause</button>
           )}
+          <button onClick={() => resetCurrent()}>Reset CurrentTask</button>
           <button onClick={() => reset()}>Reset</button>
         </div>
       </div>
