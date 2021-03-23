@@ -4,7 +4,6 @@ import "./App.css";
 import formatHours from "./libs/formatHours";
 import TaskArchive from "./components/TaskArchive";
 function App() {
-  
   const initTaskDefault = 1;
   let initTasks = initTaskDefault;
   let initTimerGlobal = 0;
@@ -12,11 +11,11 @@ function App() {
   if (
     localStorage.hasOwnProperty("tasks") ||
     localStorage.hasOwnProperty("timerGlobal") ||
-    localStorage.hasOwnProperty('archive')
+    localStorage.hasOwnProperty("archive")
   ) {
     initTasks = Number(localStorage.getItem("tasks"));
     initTimerGlobal = Number(localStorage.getItem("timerGlobal"));
-    initArchive = JSON.parse(localStorage.getItem('archive'));
+    initArchive = JSON.parse(localStorage.getItem("archive")) || [];
   }
   const [archive, setArchive] = useState(initArchive);
   const [nameTask, setNameTask] = useState("");
@@ -30,26 +29,21 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (!pause) {
-        setTimer(Date.now()-last);
+        setTimer(Date.now() - last);
         document.title = `${formatHours(timer)} | ${tasks}`;
       }
-      //  setTimerGlobal( ()=> {
-      //    if(archive.length  > 0 ){
-      //      let sofar = archive.reduce( (a, b) => {
-      //       return a + (b["duration"])
-      //      })
-      //      return sofar + timer;
-      //    }
-
-      //  })
     }, 1000);
-
+    setTimerGlobal(()=>{
+      return archive.reduce( (a, b) => {
+        return a + b["duration"];
+      }, 0)
+    });
     return () => {
       clearInterval(interval);
     };
-  }, [last, tasks, timer, pause]);
+  }, [last, tasks, timer, pause, archive]);
 
-  const startTask = function(){
+  const startTask = function () {
     let entryArchive = {
       id: tasks,
       name: nameTask,
@@ -59,18 +53,21 @@ function App() {
     setArchive((oldArchive) => [...oldArchive, entryArchive]);
     setTimer(0);
     setLast(Date.now());
-    setTasks(tasks+1);
-    localStorage.setItem('archive', JSON.stringify(archive));
-    localStorage.setItem("tasks", tasks+1);
-  }
-  const deleteLastTask = function(){
+    setTasks(tasks + 1);
+    console.log(archive);
+    localStorage.setItem("archive", JSON.stringify(archive));
+    localStorage.setItem("timerGlobal", timerGlobal);
+    localStorage.setItem("tasks", tasks + 1);
+  };
+ 
+  const deleteLastTask = function () {
     setPause(false);
     setTimer(0);
     let tempArchive = archive;
     console.log(tempArchive.pop());
     setArchive(tempArchive);
-    localStorage.setItem("tasks", tasks-1);
-  }
+    localStorage.setItem("tasks", tasks - 1);
+  };
   const isDisabled = function (condition) {
     if (condition) {
       return true;
@@ -86,13 +83,13 @@ function App() {
     setPause(true);
     setTimerGlobal(0);
   };
-  const pauseTask = function(status){
+  const pauseTask = function (status) {
     setLast(Date.now());
-    if(status){
+    if (status) {
       setTimer(0);
     }
     setPause(status);
-  }
+  };
   const resetCurrent = function () {
     localStorage.clear();
     setLast(Date.now());
@@ -107,23 +104,19 @@ function App() {
   return (
     <div className="App">
       <div className="timer">
-      <input
+        <input
           type="text"
           value={nameTask}
           onChange={handleName}
           placeholder="Name of the Task"
-        />        
-        <input
-          type="number"
-          value={tasks}
-          onChange={handleNumber}
         />
+        <input type="number" value={tasks} onChange={handleNumber} />
         <h3>Time in current Task {formatHours(timer)}</h3>
-        <h5>Total Time: {formatHours(timerGlobal)}</h5>
+
         <div>
           <button
             className="finishTask"
-            onClick={() => startTask("plus")}
+            onClick={() => startTask()}
             disabled={isDisabled(pause)}
           >
             Finish current task
@@ -131,7 +124,7 @@ function App() {
         </div>
         <div className="toolButtons">
           <button
-            onClick={ () => deleteLastTask()}
+            onClick={() => deleteLastTask()}
             disabled={isDisabled(tasks <= 1)}
           >
             Undo
@@ -145,6 +138,7 @@ function App() {
           <button onClick={() => reset()}>Reset</button>
         </div>
       </div>
+      <h5>Total Time: {formatHours(timerGlobal)}</h5>
       <TaskArchive archive={archive}></TaskArchive>
     </div>
   );
