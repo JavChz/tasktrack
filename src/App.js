@@ -30,9 +30,10 @@ function App() {
     const interval = setInterval(() => {
       if (!pause) {
         setTimer(Date.now() - last);
-        document.title = `${formatHours(timer)} | ${tasks}`;
+
       }
     }, 1000);
+    document.title = `${formatHours(timer)} | ${tasks}`;
     setTimerGlobal(()=>{
       return archive.reduce( (a, b) => {
         return a + b["duration"];
@@ -61,7 +62,6 @@ function App() {
   };
  
   const deleteLastTask = function () {
-    setPause(false);
     setTimer(0);
     let tempArchive = archive;
     console.log(tempArchive.pop());
