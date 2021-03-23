@@ -6,6 +6,7 @@ const TaskArchive = ({archive}) => {
     <div className="taskArchive">
       <div className="singleTask">
         <div>#</div>
+        <div>Name</div>
         <div>Duration</div>
         <div>Ended at</div>
       </div>

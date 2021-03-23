@@ -4,21 +4,25 @@ import "./App.css";
 import formatHours from "./libs/formatHours";
 import TaskArchive from "./components/TaskArchive";
 function App() {
+  
   const initTaskDefault = 1;
   let initTasks = initTaskDefault;
-
   let initTimerGlobal = 0;
+  let initArchive = [];
   if (
     localStorage.hasOwnProperty("tasks") ||
-    localStorage.hasOwnProperty("timerGlobal")
+    localStorage.hasOwnProperty("timerGlobal") ||
+    localStorage.hasOwnProperty('archive')
   ) {
     initTasks = Number(localStorage.getItem("tasks"));
     initTimerGlobal = Number(localStorage.getItem("timerGlobal"));
+    initArchive = JSON.parse(localStorage.getItem('archive'));
   }
-
-  const [tasks, setTasks] = useState(initTasks);
-  const [archive, setArchive] = useState([]);
+  const [archive, setArchive] = useState(initArchive);
+  const [nameTask, setNameTask] = useState("");
+  const [last, setLast] = useState(Date.now());
   const [pause, setPause] = useState(true);
+  const [tasks, setTasks] = useState(initTasks);
   const [timer, setTimer] = useState(0);
   const [timerGlobal, setTimerGlobal] = useState(initTimerGlobal);
 
@@ -26,50 +30,47 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (!pause) {
-        setTimer(timer + 1);
-        setTimerGlobal(timerGlobal + 1);
-        localStorage.setItem("timerGlobal", timerGlobal);
+        setTimer(Date.now()-last);
+        document.title = `${formatHours(timer)} | ${tasks}`;
       }
-      document.title = `${formatHours(timer)} | ${tasks}`;
+      //  setTimerGlobal( ()=> {
+      //    if(archive.length  > 0 ){
+      //      let sofar = archive.reduce( (a, b) => {
+      //       return a + (b["duration"])
+      //      })
+      //      return sofar + timer;
+      //    }
+
+      //  })
     }, 1000);
+
     return () => {
       clearInterval(interval);
     };
-  }, [pause, timer, timerGlobal, tasks]);
+  }, [last, tasks, timer, pause]);
 
-  const modTask = function (type) {
-    let currentTask = tasks;
-    switch (type) {
-      case "plus":
-        let entryArchive = {
-          id: currentTask,
-          duration: timer,
-          endAt: Date.now(),
-        };
-        setArchive((oldArchive) => [...oldArchive, entryArchive]);
-        setPause(false);
-        setTimer(0);
-        // Tasks
-        currentTask++;
-        break;
-      case "minus":
-        setPause(false);
-        setTimer(0);
-        currentTask--;
-        let tempArchive = archive;
-        console.log(tempArchive.pop());
-        setArchive(tempArchive);
-        break;
-      case "reset":
-        currentTask = initTaskDefault;
-        break;
-      default:
-        break;
-    }
-
-    localStorage.setItem("tasks", currentTask);
-    setTasks(currentTask);
-  };
+  const startTask = function(){
+    let entryArchive = {
+      id: tasks,
+      name: nameTask,
+      duration: timer,
+      endAt: Date.now(),
+    };
+    setArchive((oldArchive) => [...oldArchive, entryArchive]);
+    setTimer(0);
+    setLast(Date.now());
+    setTasks(tasks+1);
+    localStorage.setItem('archive', JSON.stringify(archive));
+    localStorage.setItem("tasks", tasks+1);
+  }
+  const deleteLastTask = function(){
+    setPause(false);
+    setTimer(0);
+    let tempArchive = archive;
+    console.log(tempArchive.pop());
+    setArchive(tempArchive);
+    localStorage.setItem("tasks", tasks-1);
+  }
   const isDisabled = function (condition) {
     if (condition) {
       return true;
@@ -79,35 +80,50 @@ function App() {
   const reset = function () {
     localStorage.clear();
     setArchive([]);
-    modTask("reset");
+    localStorage.setItem("tasks", initTaskDefault);
+    setTasks(initTaskDefault);
     setTimer(0);
     setPause(true);
     setTimerGlobal(0);
   };
+  const pauseTask = function(status){
+    setLast(Date.now());
+    if(status){
+      setTimer(0);
+    }
+    setPause(status);
+  }
   const resetCurrent = function () {
     localStorage.clear();
-
+    setLast(Date.now());
     setTimer(0);
   };
-  const handleChange = function (event) {
+  const handleNumber = function (event) {
     setTasks(Number(event.target.value));
   };
-
+  const handleName = function (event) {
+    setNameTask(String(event.target.value));
+  };
   return (
     <div className="App">
       <div className="timer">
+      <input
+          type="text"
+          value={nameTask}
+          onChange={handleName}
+          placeholder="Name of the Task"
+        />        
         <input
           type="number"
           value={tasks}
-          onChange={handleChange}
-          style={{ textAlign: "center" }}
+          onChange={handleNumber}
         />
         <h3>Time in current Task {formatHours(timer)}</h3>
         <h5>Total Time: {formatHours(timerGlobal)}</h5>
         <div>
           <button
             className="finishTask"
-            onClick={() => modTask("plus")}
+            onClick={() => startTask("plus")}
             disabled={isDisabled(pause)}
           >
             Finish current task
@@ -115,15 +131,15 @@ function App() {
         </div>
         <div className="toolButtons">
           <button
-            onClick={() => modTask("minus")}
+            onClick={ () => deleteLastTask()}
             disabled={isDisabled(tasks <= 1)}
           >
             Undo
           </button>
           {pause ? (
-            <button onClick={() => setPause(false)}>Start</button>
+            <button onClick={() => pauseTask(false)}>Start</button>
           ) : (
-            <button onClick={() => setPause(true)}>Pause</button>
+            <button onClick={() => pauseTask(true)}>Stop</button>
           )}
           <button onClick={() => resetCurrent()}>Reset CurrentTask</button>
           <button onClick={() => reset()}>Reset</button>
