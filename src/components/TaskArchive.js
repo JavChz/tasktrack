@@ -14,7 +14,7 @@ const TaskArchive = ({archive}) => {
         .slice(0)
         .reverse()
         .map((singleTask, index) => (
-          <SingleTask task={singleTask} key={index}></SingleTask>
+          <SingleTask task={singleTask} key={index} ></SingleTask>
         ))}
     </div>
   );

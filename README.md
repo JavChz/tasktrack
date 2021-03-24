@@ -1,6 +1,8 @@
 # TaskTracker
 
-Simple Task tracker web
+Simple TaskTracker, using front-end web technologies.
+
+You can try the demo here [https://javchz.github.io/tasktracker/](https://javchz.github.io/tasktracker/).
 
 ---
 
