@@ -138,7 +138,7 @@ function App() {
           <button onClick={() => reset()}>Reset</button>
         </div>
       </div>
-      <h5>Total Time: {formatHours(timerGlobal)} | Average {timerGlobal && formatHours(timerGlobal/(tasks-1))}</h5>
+      <h5>Total Time: {formatHours(timerGlobal)} | Average {timerGlobal && formatHours(timerGlobal/(archive.length ))}</h5>
       <TaskArchive archive={archive}></TaskArchive>
     </div>
   );
