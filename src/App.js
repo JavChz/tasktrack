@@ -3,6 +3,10 @@ import "./App.css";
 
 import formatHours from "./libs/formatHours";
 import TaskArchive from "./components/TaskArchive";
+import Goals from "./components/Goals/Goals";
+import GoalsBar from "./components/GoalsBar/GoalsBar";
+
+
 function App() {
   const initTaskDefault = 1;
   let initTasks = initTaskDefault;
@@ -23,7 +27,11 @@ function App() {
   const [pause, setPause] = useState(true);
   const [tasks, setTasks] = useState(initTasks);
   const [timer, setTimer] = useState(0);
+  
   const [timerGlobal, setTimerGlobal] = useState(initTimerGlobal);
+  const [goal, setGoal] = useState(240);
+  const [goalKind, setGoalKind] = useState("tasks");
+
 
   // init ClickTime
   useEffect(() => {
@@ -112,7 +120,8 @@ function App() {
         />
         <input type="number" value={tasks} onChange={handleNumber} />
         <h3>Time in current Task {formatHours(timer)}</h3>
-
+        <Goals goalKind={goalKind} ></Goals>
+        <GoalsBar goal={goal} tasks={tasks} ></GoalsBar>
         <div>
           <button
             className="finishTask"
