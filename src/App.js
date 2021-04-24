@@ -144,7 +144,7 @@ function App() {
           ) : (
             <button onClick={() => pauseTask(true)}>Stop</button>
           )}
-          <button onClick={() => resetCurrent()}>Reset CurrentTask</button>
+          <button onClick={() => resetCurrent()}>Reset Current</button>
           <button onClick={() => reset()}>Reset</button>
         </div>
       </div>
