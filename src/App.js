@@ -6,20 +6,22 @@ import TaskArchive from "./components/TaskArchive";
 import Goals from "./components/Goals/Goals";
 import GoalsBar from "./components/GoalsBar/GoalsBar";
 
-
 function App() {
   const initTaskDefault = 1;
   let initTasks = initTaskDefault;
   let initTimerGlobal = 0;
   let initArchive = [];
+  let initGoal = 240;
   if (
     localStorage.hasOwnProperty("tasks") ||
     localStorage.hasOwnProperty("timerGlobal") ||
-    localStorage.hasOwnProperty("archive")
+    localStorage.hasOwnProperty("archive") ||
+    localStorage.hasOwnProperty("goal")
   ) {
     initTasks = Number(localStorage.getItem("tasks"));
     initTimerGlobal = Number(localStorage.getItem("timerGlobal"));
     initArchive = JSON.parse(localStorage.getItem("archive")) || [];
+    initGoal = Number(localStorage.getItem("goal"));
   }
   const [archive, setArchive] = useState(initArchive);
   const [nameTask, setNameTask] = useState("");
@@ -27,25 +29,22 @@ function App() {
   const [pause, setPause] = useState(true);
   const [tasks, setTasks] = useState(initTasks);
   const [timer, setTimer] = useState(0);
-  
   const [timerGlobal, setTimerGlobal] = useState(initTimerGlobal);
-  const [goal, setGoal] = useState(240);
+  const [goal, setGoal] = useState(initGoal);
   const [goalKind, setGoalKind] = useState("tasks");
-
 
   // init ClickTime
   useEffect(() => {
     const interval = setInterval(() => {
       if (!pause) {
         setTimer(Date.now() - last);
-
       }
     }, 1000);
     document.title = `${formatHours(timer)} | ${tasks}`;
-    setTimerGlobal(()=>{
-      return archive.reduce( (a, b) => {
+    setTimerGlobal(() => {
+      return archive.reduce((a, b) => {
         return a + b["duration"];
-      }, 0)
+      }, 0);
     });
     return () => {
       clearInterval(interval);
@@ -68,7 +67,7 @@ function App() {
     localStorage.setItem("timerGlobal", timerGlobal);
     localStorage.setItem("tasks", tasks + 1);
   };
- 
+
   const deleteLastTask = function () {
     setTimer(0);
     let tempArchive = archive;
@@ -109,6 +108,10 @@ function App() {
   const handleName = function (event) {
     setNameTask(String(event.target.value));
   };
+  const handleGoals = function (event) {
+    setGoal(Number(event.target.value));
+    localStorage.setItem("goal", goal);
+  };
   return (
     <div className="App">
       <div className="timer">
@@ -121,9 +124,8 @@ function App() {
         <input type="number" value={tasks} onChange={handleNumber} />
         <h3>Time in current task</h3>
         <h2>{formatHours(timer)}</h2>
-        <Goals goalKind={goalKind} ></Goals>
-        <GoalsBar goal={goal} tasks={tasks} ></GoalsBar>
-        <div>
+
+
           <button
             className="finishTask"
             onClick={() => startTask()}
@@ -131,7 +133,7 @@ function App() {
           >
             Finish current task
           </button>
-        </div>
+
         <div className="toolButtons">
           <button
             onClick={() => deleteLastTask()}
@@ -148,7 +150,17 @@ function App() {
           <button onClick={() => reset()}>Reset</button>
         </div>
       </div>
-      <h6>Total Time: {formatHours(timerGlobal)} | Average {timerGlobal && formatHours(timerGlobal/(archive.length ))}</h6>
+      <Goals
+        goalKind={goalKind}
+        goal={goal}
+        tasks={tasks}
+        handleGoals={handleGoals}
+      ></Goals>
+      <GoalsBar goal={goal} tasks={tasks}></GoalsBar>
+      <h6>
+        Total Time: {formatHours(timerGlobal)} | Average{" "}
+        {timerGlobal && formatHours(timerGlobal / archive.length)}
+      </h6>
       <TaskArchive archive={archive} timerGlobal={timerGlobal}></TaskArchive>
     </div>
   );
