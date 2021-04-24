@@ -1,9 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
+
+:root {
+  --color-gray: #ccc;
+  --color-blue-dark: hsl(208, 100%, 24%);
+  --color-blue-light: hsl(208, 100%, 74%);
+}
 .App {
   background: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  padding: 2rem 2rem 4rem;
+  padding: 1rem 2rem 4rem;
   border-radius: 0.2rem;
   color: var(--color-blue-dark);
+}
+h1,h2,h3,h4,h5,h6{
+  margin: 0.5rem 0;
 }
 input,
 button {

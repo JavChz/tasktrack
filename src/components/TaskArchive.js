@@ -1,9 +1,12 @@
 import React from "react";
 import SingleTask from "./SingleTask";
 
-const TaskArchive = ({archive}) => {
+
+const TaskArchive = ({archive,timerGlobal}) => {
   return (
+    
     <div className="taskArchive">
+      
       <div className="singleTask">
         <div>#</div>
         <div>Name</div>

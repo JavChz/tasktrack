@@ -119,7 +119,8 @@ function App() {
           placeholder="Name of the Task"
         />
         <input type="number" value={tasks} onChange={handleNumber} />
-        <h3>Time in current Task {formatHours(timer)}</h3>
+        <h3>Time in current task</h3>
+        <h2>{formatHours(timer)}</h2>
         <Goals goalKind={goalKind} ></Goals>
         <GoalsBar goal={goal} tasks={tasks} ></GoalsBar>
         <div>
@@ -147,8 +148,8 @@ function App() {
           <button onClick={() => reset()}>Reset</button>
         </div>
       </div>
-      <h5>Total Time: {formatHours(timerGlobal)} | Average {timerGlobal && formatHours(timerGlobal/(archive.length ))}</h5>
-      <TaskArchive archive={archive}></TaskArchive>
+      <h6>Total Time: {formatHours(timerGlobal)} | Average {timerGlobal && formatHours(timerGlobal/(archive.length ))}</h6>
+      <TaskArchive archive={archive} timerGlobal={timerGlobal}></TaskArchive>
     </div>
   );
 }

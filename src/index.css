@@ -1,10 +1,114 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
 
-:root {
-  --color-gray: #ccc;
-  --color-blue-dark: hsl(208, 100%, 24%);
-  --color-blue-light: hsl(208, 100%, 74%);
+
+
+
+/*reset*/
+
+article,
+aside,
+canvas,
+details,
+figcaption,
+figure,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+footer,
+header,
+menu,
+nav,
+section,
+summary,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+html,
+body,
+div,
+span,
+object,
+iframe,
+pre,
+cite,
+code,
+del,
+q,
+img,
+ins,
+em,
+b,
+i,
+strong,
+table,
+caption,
+tr,
+th,
+td,
+time,
+mark,
+audio,
+video {
+  background: transparent;
+  border: 0;
+  font-size: 100%;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  vertical-align: baseline;
 }
+article,
+aside,
+figure,
+footer,
+header,
+menu,
+nav,
+section {
+  display: block;
+}
+nav ul {
+  list-style: none;
+}
+a {
+  background: transparent;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+h1 {
+  font-size: 2rem;
+}
+h2 {
+  font-size: 1.8rem;
+}
+h3 {
+  font-size: 1.4rem;
+}
+h4 {
+  font-size: 1.2rem;
+}
+h5 {
+  font-size: 1.1rem;
+}
+h6 {
+  font-size: 1rem;
+}
+
+
+
 
 html{
   font-size: 100%;
@@ -23,5 +127,4 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
 
