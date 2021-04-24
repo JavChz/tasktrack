@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext");
 
 :root {
   --color-gray: #ccc;
@@ -12,8 +12,13 @@
   border-radius: 0.2rem;
   color: var(--color-blue-dark);
 }
-h1,h2,h3,h4,h5,h6{
-  margin: 0.5rem 0;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 1rem 0;
 }
 input,
 button {
@@ -32,7 +37,6 @@ button:disabled {
 }
 .timer {
   text-align: center;
-  margin-top: 2rem;
 }
 .timer input {
   border-radius: 0.2rem;
@@ -40,19 +44,24 @@ button:disabled {
   border: 2px solid var(--color-blue-dark);
   font-size: 1.3rem;
   font-weight: bold;
-  margin: .2rem;
-  padding: .2rem;
+  margin: 0.2rem;
+  padding: 0.2rem;
   padding: 0.5rem 0rem;
   text-align: center;
   width: 100%;
 }
 .finishTask {
   font-size: 1.8rem;
+  margin: 1rem;
+}
+.toolButtons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .5rem;
 }
 button {
   box-sizing: border-box;
-  margin: 1rem 0.5rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
   border: 0;
   padding: 0.8rem 1rem;
   background-color: var(--color-blue-dark);
