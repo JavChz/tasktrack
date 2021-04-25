@@ -11,7 +11,7 @@ function App() {
   let initTasks = initTaskDefault;
   let initTimerGlobal = 0;
   let initArchive = [];
-  let initGoal = 240;
+  let initGoal = 250;
   if (
     localStorage.hasOwnProperty("tasks") ||
     localStorage.hasOwnProperty("timerGlobal") ||
@@ -113,7 +113,7 @@ function App() {
     localStorage.setItem("goal", goal);
   };
   return (
-    <div className="App">
+    <div className="Main">
       <div className="timer">
         <input
           type="text"
