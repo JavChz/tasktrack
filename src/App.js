@@ -49,7 +49,7 @@ function App() {
     return () => {
       clearInterval(interval);
     };
-  }, [last, tasks, timer, pause, archive]);
+  }, [last, tasks, timer, pause, archive, goal]);
 
   const startTask = function () {
     let entryArchive = {
@@ -109,6 +109,7 @@ function App() {
     setNameTask(String(event.target.value));
   };
   const handleGoals = function (event) {
+    
     setGoal(Number(event.target.value));
     localStorage.setItem("goal", goal);
   };
@@ -124,15 +125,13 @@ function App() {
         <input type="number" value={tasks} onChange={handleNumber} />
         <h3>Time in current task</h3>
         <h2>{formatHours(timer)}</h2>
-
-
-          <button
-            className="finishTask"
-            onClick={() => startTask()}
-            disabled={isDisabled(pause)}
-          >
-            Finish current task
-          </button>
+        <button
+          className="finishTask"
+          onClick={() => startTask()}
+          disabled={isDisabled(pause)}
+        >
+          Finish current task
+        </button>
 
         <div className="toolButtons">
           <button
