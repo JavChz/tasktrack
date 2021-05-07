@@ -35,10 +35,18 @@ function App() {
 
   // init ClickTime
   useEffect(() => {
+    const saveToLocal = function(){
+      localStorage.setItem("archive", JSON.stringify(archive));
+      localStorage.setItem("timerGlobal", timerGlobal);
+      localStorage.setItem("tasks", tasks);
+      localStorage.setItem("goal", goal);
+    }    
+    saveToLocal();
     const interval = setInterval(() => {
       if (!pause) {
         setTimer(Date.now() - last);
       }
+      document.title = `TaskTraker`;
     }, 1000);
     document.title = `${formatHours(timer)} | ${tasks}`;
     setTimerGlobal(() => {
@@ -46,7 +54,6 @@ function App() {
         return a + b["duration"];
       }, 0);
     });
-    saveToLocal();
     return () => {
       clearInterval(interval);
     };
@@ -64,12 +71,7 @@ function App() {
     setLast(Date.now());
     setTasks(tasks + 1);
   };
-  const saveToLocal = function(){
-    localStorage.setItem("archive", JSON.stringify(archive));
-    localStorage.setItem("timerGlobal", timerGlobal);
-    localStorage.setItem("tasks", tasks);
-    localStorage.setItem("goal", goal);
-  }
+
   const deleteLastTask = function () {
     setTimer(0);
     if(archive.length > 1){
@@ -78,7 +80,6 @@ function App() {
       setArchive(tempArchive);
     }
     setTasks(tasks-1);
-    saveToLocal();
   };
   const isDisabled = function (condition) {
     if (condition) {
