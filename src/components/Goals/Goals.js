@@ -14,7 +14,6 @@ function Goals({ goal, handleGoals, tasks }) {
           type="number"
           value={goal}
           onChange={handleGoals}
-          onBlur={handleGoals}
           placeholder="No. of Goals"
         />
       </h6>

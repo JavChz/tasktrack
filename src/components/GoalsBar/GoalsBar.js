@@ -7,7 +7,6 @@ function GoalsBar({ goal, tasks }) {
   progress = (100 / goal) * tasks;
   return (
     <div>
-
       <div className="goalsBar">
         <div className="bar" style={{ width: `${progress}%` }}></div>
       </div>

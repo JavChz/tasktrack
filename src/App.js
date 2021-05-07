@@ -21,7 +21,7 @@ function App() {
     initTasks = Number(localStorage.getItem("tasks"));
     initTimerGlobal = Number(localStorage.getItem("timerGlobal"));
     initArchive = JSON.parse(localStorage.getItem("archive")) || [];
-    initGoal = Number(localStorage.getItem("goal"));
+    initGoal = Number(localStorage.getItem("goal")) || initGoal;
   }
   const [archive, setArchive] = useState(initArchive);
   const [nameTask, setNameTask] = useState("");
@@ -46,6 +46,7 @@ function App() {
         return a + b["duration"];
       }, 0);
     });
+    saveToLocal();
     return () => {
       clearInterval(interval);
     };
@@ -62,18 +63,22 @@ function App() {
     setTimer(0);
     setLast(Date.now());
     setTasks(tasks + 1);
-    console.log(archive);
+  };
+  const saveToLocal = function(){
     localStorage.setItem("archive", JSON.stringify(archive));
     localStorage.setItem("timerGlobal", timerGlobal);
-    localStorage.setItem("tasks", tasks + 1);
-  };
-
+    localStorage.setItem("tasks", tasks);
+    localStorage.setItem("goal", goal);
+  }
   const deleteLastTask = function () {
     setTimer(0);
-    let tempArchive = archive;
-    console.log(tempArchive.pop());
-    setArchive(tempArchive);
-    localStorage.setItem("tasks", tasks - 1);
+    if(archive.length > 1){
+      let tempArchive = archive;
+      tempArchive.pop();
+      setArchive(tempArchive);
+    }
+    setTasks(tasks-1);
+    saveToLocal();
   };
   const isDisabled = function (condition) {
     if (condition) {
@@ -83,12 +88,14 @@ function App() {
   };
   const reset = function () {
     localStorage.clear();
-    setArchive([]);
     localStorage.setItem("tasks", initTaskDefault);
+    localStorage.setItem("goal", initGoal);
+    setArchive([]);
     setTasks(initTaskDefault);
     setTimer(0);
     setPause(true);
     setTimerGlobal(0);
+    setGoal(initGoal)
   };
   const pauseTask = function (status) {
     setLast(Date.now());
@@ -108,10 +115,8 @@ function App() {
   const handleName = function (event) {
     setNameTask(String(event.target.value));
   };
-  const handleGoals = function (event) {
-    
+  const handleGoals = function (event) {   
     setGoal(Number(event.target.value));
-    localStorage.setItem("goal", goal);
   };
   return (
     <div className="Main">
