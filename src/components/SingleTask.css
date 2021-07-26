@@ -5,6 +5,6 @@
 }
 .singleTask div{
   padding: .5rem 1rem;
-  border-bottom: 1px dotted  var(--color-blue-dark);;
+  border-bottom: 1px dotted  var(--color-blue-gray);
   
 }
