@@ -3,16 +3,18 @@
 :root {
   --color-gray: #ccc;
   --color-blue-dark: hsl(208, 100%, 24%);
-  --color-blue-light: hsl(208, 100%, 74%);
+  --color-blue-light: hsl(208, 100%, 97%);
 	--breakpoint: 600px;
 }
+body{
+  background: var(--color-blue-light);
+}
 .Main {
-  background: white;
   border-radius: 0.2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
   color: var(--color-blue-dark);
   max-width: var(--breakpoint);
-  padding: 1rem 2rem 4rem;
+  padding: .5rem 2rem 4rem;
 	margin: 0 auto;
 }
 h1,
