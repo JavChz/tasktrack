@@ -1,12 +1,9 @@
 import React from "react";
 import SingleTask from "../SingleTask";
 
-
-const TaskArchive = ({archive,timerGlobal}) => {
+const TaskArchive = ({ archive, timerGlobal }) => {
   return (
-    
     <div className="taskArchive">
-      
       <div className="singleTask">
         <div>#</div>
         <div>Name</div>
@@ -17,9 +14,9 @@ const TaskArchive = ({archive,timerGlobal}) => {
         .slice(0)
         .reverse()
         .map((singleTask, index) => (
-          <SingleTask task={singleTask} key={index} ></SingleTask>
+          <SingleTask task={singleTask} key={index}></SingleTask>
         ))}
     </div>
   );
-}
-export default TaskArchive;
+};
+export { TaskArchive };

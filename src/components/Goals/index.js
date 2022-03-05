@@ -21,4 +21,4 @@ function Goals({ goal, handleGoals, tasks }) {
   );
 }
 
-export default Goals;
+export { Goals };

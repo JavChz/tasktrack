@@ -1,67 +1,21 @@
 import React, { useContext } from "react";
 
-import { AppContext } from "./AppContext";
-
+import { AppContext } from "../AppContext";
+import { TimerForm } from "../TimerForm";
 import formatHours from "../../libs/formatHours";
-import TaskArchive from "../TaskArchive";
-import Goals from "../Goals";
-import GoalsBar from "../GoalsBar";
+import { TaskArchive } from "../TaskArchive";
+import { Goals } from "../Goals";
+import { GoalsBar } from "../GoalsBar";
+import { ToolButtons } from "../ToolsButtons";
 
 function AppUI() {
-  const {
-		goalKind,
-		reset,
-		timer,
-    archive,
-    deleteLastTask,
-    goal,
-    handleGoals,
-    handleName,
-    handleNumber,
-    isDisabled,
-    nameTask,
-    pause,
-    pauseTask,
-    resetCurrent,
-    startTask,
-    tasks,
-    timerGlobal,
-  } = useContext(AppContext);
+  const { goalKind, archive, goal, handleGoals, tasks, timerGlobal } =
+    useContext(AppContext);
   return (
     <div className="Main">
       <div className="timer">
-        <input
-          type="text"
-          value={nameTask}
-          onChange={handleName}
-          placeholder="Name of the Task"
-        />
-        <input type="number" value={tasks} onChange={handleNumber} />
-        <h3>Time in current task</h3>
-        <h2>{formatHours(timer)}</h2>
-        <button
-          className="finishTask"
-          onClick={() => startTask()}
-          disabled={isDisabled(pause)}
-        >
-          Finish current task
-        </button>
-
-        <div className="toolButtons">
-          <button
-            onClick={() => deleteLastTask()}
-            disabled={isDisabled(tasks <= 1)}
-          >
-            Undo
-          </button>
-          {pause ? (
-            <button onClick={() => pauseTask(false)}>Start</button>
-          ) : (
-            <button onClick={() => pauseTask(true)}>Stop</button>
-          )}
-          <button onClick={() => resetCurrent()}>Reset Current</button>
-          <button onClick={() => reset()}>Reset</button>
-        </div>
+        <TimerForm />
+        <ToolButtons />
       </div>
       <Goals
         goalKind={goalKind}

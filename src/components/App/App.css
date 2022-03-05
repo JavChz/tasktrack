@@ -5,6 +5,7 @@
   --color-blue-dark: hsl(208, 100%, 24%);
   --color-blue-gray: hsl(208, 50%, 50%);
   --color-blue-light: hsl(208, 100%, 97%);
+  --color-red-green: hsl(150, 100%, 26%);
 	--breakpoint: 600px;
 }
 body{

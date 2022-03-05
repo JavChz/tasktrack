@@ -1,10 +1,13 @@
-.goalsBar{
+.GoalsBar{
     border: 1px solid;
     width: 100%;
     line-height: 0;
 }
-.bar{
+.GoalsBar__bar{
     height:1rem;
     background: var(--color-blue-dark);
-    transition: width .5s ease-in-out;
+    transition: all .5s ease-in-out;
+}
+.GoalsBar__bar--completed{
+    background: var(--color-red-green);
 }

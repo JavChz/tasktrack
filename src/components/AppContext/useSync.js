@@ -1,6 +1,5 @@
 import React from "react";
 
-
 function useSnyc(itemName, initialValue) {
   const [item, setItem] = React.useState(initialValue);
   const [loading, setLoading] = React.useState(true);
