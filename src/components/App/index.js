@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
+import { AppProvider } from "./AppContext";
+
 import formatHours from "../../libs/formatHours";
 import TaskArchive from "../TaskArchive";
 import Goals from "../Goals";
@@ -35,12 +37,12 @@ function App() {
 
   // init ClickTime
   useEffect(() => {
-    const saveToLocal = function(){
+    const saveToLocal = function () {
       localStorage.setItem("archive", JSON.stringify(archive));
       localStorage.setItem("timerGlobal", timerGlobal);
       localStorage.setItem("tasks", tasks);
       localStorage.setItem("goal", goal);
-    }    
+    };
     saveToLocal();
     const interval = setInterval(() => {
       if (!pause) {
@@ -74,12 +76,12 @@ function App() {
 
   const deleteLastTask = function () {
     setTimer(0);
-    if(archive.length > 1){
+    if (archive.length > 1) {
       let tempArchive = archive;
       tempArchive.pop();
       setArchive(tempArchive);
     }
-    setTasks(tasks-1);
+    setTasks(tasks - 1);
   };
   const isDisabled = function (condition) {
     if (condition) {
@@ -96,7 +98,7 @@ function App() {
     setTimer(0);
     setPause(true);
     setTimerGlobal(0);
-    setGoal(initGoal)
+    setGoal(initGoal);
   };
   const pauseTask = function (status) {
     setLast(Date.now());
@@ -116,58 +118,60 @@ function App() {
   const handleName = function (event) {
     setNameTask(String(event.target.value));
   };
-  const handleGoals = function (event) {   
+  const handleGoals = function (event) {
     setGoal(Number(event.target.value));
   };
   return (
-    <div className="Main">
-      <div className="timer">
-        <input
-          type="text"
-          value={nameTask}
-          onChange={handleName}
-          placeholder="Name of the Task"
-        />
-        <input type="number" value={tasks} onChange={handleNumber} />
-        <h3>Time in current task</h3>
-        <h2>{formatHours(timer)}</h2>
-        <button
-          className="finishTask"
-          onClick={() => startTask()}
-          disabled={isDisabled(pause)}
-        >
-          Finish current task
-        </button>
-
-        <div className="toolButtons">
+    <AppProvider>
+      <div className="Main">
+        <div className="timer">
+          <input
+            type="text"
+            value={nameTask}
+            onChange={handleName}
+            placeholder="Name of the Task"
+          />
+          <input type="number" value={tasks} onChange={handleNumber} />
+          <h3>Time in current task</h3>
+          <h2>{formatHours(timer)}</h2>
           <button
-            onClick={() => deleteLastTask()}
-            disabled={isDisabled(tasks <= 1)}
+            className="finishTask"
+            onClick={() => startTask()}
+            disabled={isDisabled(pause)}
           >
-            Undo
+            Finish current task
           </button>
-          {pause ? (
-            <button onClick={() => pauseTask(false)}>Start</button>
-          ) : (
-            <button onClick={() => pauseTask(true)}>Stop</button>
-          )}
-          <button onClick={() => resetCurrent()}>Reset Current</button>
-          <button onClick={() => reset()}>Reset</button>
+
+          <div className="toolButtons">
+            <button
+              onClick={() => deleteLastTask()}
+              disabled={isDisabled(tasks <= 1)}
+            >
+              Undo
+            </button>
+            {pause ? (
+              <button onClick={() => pauseTask(false)}>Start</button>
+            ) : (
+              <button onClick={() => pauseTask(true)}>Stop</button>
+            )}
+            <button onClick={() => resetCurrent()}>Reset Current</button>
+            <button onClick={() => reset()}>Reset</button>
+          </div>
         </div>
+        <Goals
+          goalKind={goalKind}
+          goal={goal}
+          tasks={tasks}
+          handleGoals={handleGoals}
+        ></Goals>
+        <GoalsBar goal={goal} tasks={tasks}></GoalsBar>
+        <h6>
+          Total Time: {formatHours(timerGlobal)} | Average{" "}
+          {timerGlobal && formatHours(timerGlobal / archive.length)}
+        </h6>
+        <TaskArchive archive={archive} timerGlobal={timerGlobal}></TaskArchive>
       </div>
-      <Goals
-        goalKind={goalKind}
-        goal={goal}
-        tasks={tasks}
-        handleGoals={handleGoals}
-      ></Goals>
-      <GoalsBar goal={goal} tasks={tasks}></GoalsBar>
-      <h6>
-        Total Time: {formatHours(timerGlobal)} | Average{" "}
-        {timerGlobal && formatHours(timerGlobal / archive.length)}
-      </h6>
-      <TaskArchive archive={archive} timerGlobal={timerGlobal}></TaskArchive>
-    </div>
+    </AppProvider>
   );
 }
 
