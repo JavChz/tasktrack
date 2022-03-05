@@ -1,6 +1,6 @@
 import React from "react";
 import "./SingleTask.css";
-import formatHours from "../libs/formatHours";
+import formatHours from "../../libs/formatHours";
 
 const SingleTask = ({ task }) => {
   return (

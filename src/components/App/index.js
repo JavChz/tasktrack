@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
-import formatHours from "./libs/formatHours";
-import TaskArchive from "./components/TaskArchive";
-import Goals from "./components/Goals/Goals";
-import GoalsBar from "./components/GoalsBar/GoalsBar";
+import formatHours from "../../libs/formatHours";
+import TaskArchive from "../TaskArchive";
+import Goals from "../Goals";
+import GoalsBar from "../GoalsBar";
 
 function App() {
   const initTaskDefault = 1;

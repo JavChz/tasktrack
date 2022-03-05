@@ -1,5 +1,5 @@
 import React from "react";
-import SingleTask from "./SingleTask";
+import SingleTask from "../SingleTask";
 
 
 const TaskArchive = ({archive,timerGlobal}) => {
