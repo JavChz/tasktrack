@@ -11,15 +11,15 @@ function GoalsBar({ goal, tasks }) {
     overdone = true;
   }
   return (
-    <div>
-      <div className="GoalsBar">
-        <div
-          className={`GoalsBar__bar ${overdone ? "GoalsBar__bar--completed" : ""}`}
-          style={{ width: `${progress}%` }}
-        ></div>
-      </div>
+    <div className="GoalsBar">
+      <div
+        className={`GoalsBar__bar ${
+          overdone ? "GoalsBar__bar--completed" : ""
+        }`}
+        style={{ width: `${progress}%` }}
+      ></div>
     </div>
   );
 }
 
-export { GoalsBar};
+export { GoalsBar };

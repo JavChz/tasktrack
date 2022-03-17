@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 
 import { AppContext } from "../AppContext";
-import { TimerForm } from "../TimerForm";
-import formatHours from "../../libs/formatHours";
-import { TaskArchive } from "../TaskArchive";
 import { Goals } from "../Goals";
 import { GoalsBar } from "../GoalsBar";
+import { TaskArchive } from "../TaskArchive";
+import { TimerForm } from "../TimerForm";
 import { ToolButtons } from "../ToolsButtons";
+import formatHours from "../../libs/formatHours";
 
 function AppUI() {
   const { goalKind, archive, goal, handleGoals, tasks, timerGlobal } =
