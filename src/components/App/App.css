@@ -6,9 +6,9 @@
   --color-blue-gray: hsl(208, 50%, 50%);
   --color-blue-light: hsl(208, 100%, 97%);
   --color-red-green: hsl(150, 100%, 26%);
-	--breakpoint: 600px;
+  --breakpoint: 600px;
 }
-body{
+body {
   background: var(--color-blue-light);
 }
 .Main {
@@ -16,8 +16,8 @@ body{
   /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
   color: var(--color-blue-dark);
   max-width: var(--breakpoint);
-  padding: .5rem 2rem 4rem;
-	margin: 0 auto;
+  padding: 0.5rem 2rem 4rem;
+  margin: 0 auto;
 }
 h1,
 h2,
@@ -65,6 +65,11 @@ button:disabled {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(14ch, 1fr));
   gap: 0.5rem;
+}
+.Download {
+  display: flex;
+  justify-content: right;
+  margin: 1rem 0;
 }
 button {
   box-sizing: border-box;

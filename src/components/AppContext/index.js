@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import formatHours from "../../libs/formatHours";
-import useSync from './useSync';
+
 const AppContext = React.createContext();
 
 function AppProvider(props) {
@@ -9,7 +9,7 @@ function AppProvider(props) {
   let initTasks = initTaskDefault;
   let initTimerGlobal = 0;
   let initArchive = [];
-  let initGoal = 250;
+  let initGoal = 10;
   if (
     localStorage.hasOwnProperty("tasks") ||
     localStorage.hasOwnProperty("timerGlobal") ||
@@ -21,7 +21,7 @@ function AppProvider(props) {
     initArchive = JSON.parse(localStorage.getItem("archive")) || [];
     initGoal = Number(localStorage.getItem("goal")) || initGoal;
   }
-	
+
   const [archive, setArchive] = useState(initArchive);
   const [nameTask, setNameTask] = useState("");
   const [last, setLast] = useState(Date.now());
